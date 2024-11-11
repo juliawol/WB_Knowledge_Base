@@ -6,6 +6,18 @@ For desciption in Russian, please scroll down.
 
 A fine-tuned `SentenceTransformer` model retrieves relevant chunks from a knowledge base based on the input question and uses an optional cross-encoder for re-ranking. The interface is built using [Gradio](https://gradio.app/) to make it easy for users to ask questions and receive relevant answers.
 
+# Structure
+- `Data` contains the necessary preprocessed csv-files:
+      -  `chunks.csv` contains the knowledge base, cleaned of duplicates, errors, and typos. In some cases, chunks have been redistributed.
+      - `train_data.csv` is the training file containing three columns: question, chunk, and hard negative.
+      - `train_data1.csv` is the validation dataset.
+- `Notebooks` folder contains copies of notebooks from Google Colab, where model fine-tuning was performed using cloud GPU.
+      - `WB_Baseline.ipynb` – baseline model for evaluating the potential for metric improvements.
+      - `Fine_tuning_with_triplets.ipynb` – code for fine-tuning the model.
+      - `WB_Triplets.ipynb` – final model, using the fine-tuned file as a foundation.
+      - `Deploy_to_Gradio.ipynb` – code for deploying the model on Gradio.
+      - `Recall.ipynb` – code for measuring metrics (also duplicated in the final model for easier verification).
+
 # Features
 
 - **Fine-tuned Model with Triplet Loss**: The model is trained using a `SentenceTransformer` with triplet loss, fine-tuned on custom terminology data.
@@ -91,6 +103,19 @@ Recall@5: 0.68
 # Модель для ответов на вопросы с интерфейсом Gradio
 
 Модель `SentenceTransformer`, дообученная с помощью функции тройных потерь, ищет релевантные фрагменты в базе знаний на основе введенного вопроса и использует дополнительный кросс-энкодер для ранжирования. Интерфейс реализован с помощью [Gradio](https://gradio.app/), что позволяет пользователям задавать вопросы и получать релевантные ответы.
+
+
+# Структура репозитория
+- `Data` – хранилище csv-файлов:
+   -  `chunks.csv` содержит базу знаний, очищенную от повторов, ошибок, опечаток. В некоторых случаях чанки перераспределены.
+   -  `train_data.csv` – это обучающий файл,содержащий три колонки: вопрос, эталонный ответ, неверный ответ.
+   -  `train_data1.csv` – валидационный датасет.
+-  `Notebooks` содержит копии тетрадок из Google Colab, на облачном GPU производилось дообучение модели.
+   - `WB_Baseline.ipynb` – бейзлайн модель для замера роста метрик.
+   - `Fine_tuning_with_triplets.ipynb` – код для дообучения модели.
+   -  `WB_Triplets.ipynb` – итоговая модель, использующая в основе файн-тьюн файл.
+   -  `Deploy_to_Gradio.ipynb` – код для развертывания модели на сервисе
+   -  `Recall.ipynb` – код для измерения метрик (также дублирован в итоговой модели для удобства проверки)
 
 # Основные функции
 
