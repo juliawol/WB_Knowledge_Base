@@ -78,7 +78,12 @@ Chunk 5:
 
 ### Metrics 
 
-`Recall.ipynb` demonstrated the code that I used to verify the metrics. In this particular case, the focus is on recall@1, recall@#, and recall@5. I would like to highlite that the model improves its predictions by its second attempt at choosing the relevant chunk. The knowledge base itself has a lot similar chunks, thus making the metrics a bit less accurate. Sometimes the true chunk is not  semantically sifferent from the first or second proposed by the model.
+`Recall.ipynb` demonstrated the code that I used to verify the metrics. In this particular case, the focus is on recall@1, recall@#, and recall@5. I would like to highlite that the model improves its predictions by its second attempt at choosing the relevant chunk. The knowledge base itself has a lot similar chunks, thus making the metrics a bit less accurate. Sometimes the true chunk is not  semantically sifferent from the first or second proposed by the model. The following metrics are obtained through using an extremely small dataset with triplets (at about 150 entries). If expanded, the metrcis reach 0.8 for recall@1 (checked using large openly available knowledge bases and systetically created triplets).
+
+Recall@1: 0.45
+Recall@2: 0.56
+Recall@3: 0.62
+Recall@5: 0.68
 
 ### Baseline model
 
