@@ -1,92 +1,88 @@
 # WB_Knowledge_Base
 This repository contains an approach to creating a knowledge base information retrieval system.
 
-## Project Overview
+# Question Answering Model with Gradio Interface
 
-The system provides two levels of retrieval:
-- **Baseline Model**: Uses TF-IDF and cosine similarity.
-- **Optimized Model**: Uses FastText embeddings, a Sentence Transformer model fine-tuned on domain-specific terminology, and an optional re-ranking with a cross-encoder.
+A fine-tuned `SentenceTransformer` model retrieves relevant chunks from a knowledge base based on the input question and uses an optional cross-encoder for re-ranking. The interface is built using [Gradio](https://gradio.app/) to make it easy for users to ask questions and receive relevant answers.
 
-The repository enables users to evaluate the optimized model’s retrieval performance by using fine-tuned parameters without requiring full re-training or inference setup.
+## Features
 
-## Repository Structure
+- **Fine-tuned Model with Triplet Loss**: The model is trained using a `SentenceTransformer` with triplet loss, fine-tuned on custom terminology data.
+- **Cross-Encoder Re-ranking**: The system uses a cross-encoder for enhanced answer re-ranking, improving the relevance of returned answers.
+- **Gradio Interface**: An easy-to-use web interface built with Gradio, allowing users to ask questions and view the top-5 relevant answers.
 
-```
-knowledge-based-retrieval/
-├── data/
-│   ├── train_data.csv            # Training data with questions and relevant chunks
-│   ├── chunks.csv                # Knowledge base chunks for retrieval
-├── models/
-│   ├── baseline_model.py         # TF-IDF baseline code
-│   ├── optimized_model.py        # FastText and Sentence Transformer code
-│   └── fine_tuned_params.pth     # Fine-tuned Sentence Transformer model parameters
-├── requirements.txt              # Dependencies for the project
-├── README.md                     # Project overview and instructions
-└── scripts/
-    ├── inference.py              # Script to test the optimized model
-    └── evaluate.py               # Script for calculating recall scores
-```
+## Installation
 
-## Setup Instructions
+To set up this project locally, ensure you have the following dependencies installed:
 
-1. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. **Download Required Models**:
-   - Spacy’s Russian language model:
-     ```bash
-     python -m spacy download ru_core_news_sm
-     ```
-   - FastText Vectors (run the following in the terminal to download and extract):
-     ```bash
-     wget https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.ru.300.bin.gz
-     gunzip -k cc.ru.300.bin.gz
-     ```
-   - Store `cc.ru.300.bin` in the `data/` folder.
-
-3. **Configure Weights & Biases (wandb)**:
-   - This project uses [Weights & Biases](https://wandb.ai/) for tracking during model fine-tuning.
-   - Set up your Weights & Biases API key:
-     ```bash
-     wandb login
-     ```
-   - If you don’t have an API key, create an account on [wandb.ai](https://wandb.ai/) to obtain one.
-   - For the purposes of chescking my work, you can use my API key: 25296f77e8a2b6ceaa2806bb4ab94f8090a159c1
-
-4. **Run the Baseline Model**:
-   ```bash
-   python models/baseline_model.py
-   ```
-
-5. **Evaluate the Optimized Model**:
-   - Run the evaluation script to calculate Recall@k metrics:
-     ```bash
-     python scripts/evaluate.py
-     ```
-
-6. **Test Retrieval with Optimized Model**:
-   - Run the `inference.py` script to input queries and retrieve relevant knowledge base chunks:
-     ```bash
-     python scripts/inference.py
-     ```
-
-## Models Used
-
-- **TF-IDF + Cosine Similarity**: Baseline model for basic retrieval.
-- **FastText Vectors**: For word embeddings based on the pre-trained Russian FastText model.
-- **Sentence Transformers**: Fine-tuned on domain-specific terminology to capture semantic relevance. Fine-tuning is tracked via wandb.
-- **Cross-Encoder (Optional)**: Re-ranks candidate results for improved retrieval accuracy.
-
-## Requirements
-
-All dependencies are listed in `requirements.txt`. Run the following command to install:
 ```bash
-pip install -r requirements.txt
+pip install torch sentence-transformers transformers pandas gradio scikit-learn
 ```
 
-## Evaluation
+If you are using Google Colab, the following code can be used to install Gradio and other necessary dependencies:
 
-- **Recall@k Calculation**: The `evaluate.py` script provides Recall@1, Recall@3, and Recall@5 scores based on the sampled test set. Works with the optimal model only. For the baseline model, the metrics are calculated directly in its file.
-- **Inference Example**: You can run sample queries to see top-k retrieved chunks using the optimized model.
+```python
+!pip install torch sentence-transformers transformers pandas gradio scikit-learn
+```
+
+
+
+You can refer to the code in `Fine_tuning_with_triplets.ipynb` to set how the training was completed.
+
+**Prepare the Knowledge Base**:
+   For the purposes of fine-tuning, creating a dataset with hard-negatives was an essential step. This code will only be compatible with train sets that contain a question, true chink and a hard-negative.
+
+## Usage
+
+The main code file (`WB_Triplets.ipynb`) contains the code to load the model, retrieve answers, and set up the Gradio interface. Here’s a breakdown of each component:
+
+1. **Load Fine-Tuned Model**: Loads the `SentenceTransformer` model and precomputes embeddings for all chunks in the knowledge base.
+2. **Chunk Retrieval with Cross-Encoder**: Uses cosine similarity for initial retrieval and an optional cross-encoder model for re-ranking.
+3. **Gradio Interface**: Sets up a Gradio web application to interact with the model.
+
+### Running the Model
+
+During the following three days, the model is available at https://54bac118d6e06c6b04.gradio.live
+
+## Gradio Interface
+
+The Gradio interface accepts a question in Russian and displays the top-5 relevant chunks from the knowledge base as answers. It handles edge cases where:
+- The question is empty or too short.
+- The question is not in Russian.
+- No relevant chunks are found.
+
+Here’s a screenshot of the interface:
+
+![Interface Screenshot](screenshot.png)
+
+### Example Usage
+
+- **Input**: "Что будет, если я отправлю не тот товар на склад? "
+- **Output**:
+
+Chunk 1:
+Если вы не заметите подмену и отправите на склад не тот товар, из зарплаты вычтут сумму в размере стоимости вещи.
+
+Chunk 2:
+Удержание «Неотправленный возврат в коробке на склад». Если вы отправляли товар на склад, но он потерялся в пути, проверьте историю штрихкода и выберите в заявке склад или СЦ, где товар сканировали в последней раз. - Удержание «Подмена товара». Просмотрите историю штрихкода: там будет статус «Неправильное вложение на переупаковке» и название склада или СЦ, где обнаружили подмену — туда нужно будет отправить заявку. - Удержание «Не принятый товар на полку». Если в приходной коробке не оказалось одного из товаров, нужно найти в истории штрихкода последний склад или СЦ, где его сканировали, и отправить туда заявку.
+
+Chunk 3:
+При хранении товара не нужно: - Маркировать товар. Если на коробке будут надписи ручкой или маркером, покупатель может пожаловаться и вернуть товар как бракованный. Тогда из выплаты менеджера удержат сумму за брак. - Игнорировать верхние полки. Так вы лишайте склад дополнительного места для заказов. - Хаотично нумеровать места на складе. Ячейки и полки нужно маркировать в логичном порядке — так сможете быстрее находить и выдавать заказы. - Хранить заказы возле батарей. Товары могут испортиться из-за высокой температуры.  - Не соблюдать принцип «1 покупатель — 1 место». Кладите все покупки одного человека в отдельную ячейку, чтобы не тратить время на поиски.
+
+Chunk 4:
+Если вы потеряете товар или коробку в пункте выдачи, отправите вещь на склад без штрихкода или товар не вернётся в сортировочный центр после возврата, программа посчитает это за недостачу. Из зарплаты удержат сумму в размере стоимости товара.
+
+Chunk 5:
+Если вы не примете товар из приходной коробки, из зарплаты удержат сумму в размере стоимости вещи. Если товара в коробке не оказалось, за это тоже начислят долг.
+
+
+### Metrics 
+
+`Recall.ipynb` demonstrated the code that I used to verify the metrics. In this particular case, the focus is on recall@1, recall@#, and recall@5. I would like to highlite that the model improves its predictions by its second attempt at choosing the relevant chunk. The knowledge base itself has a lot similar chunks, thus making the metrics a bit less accurate. Sometimes the true chunk is not  semantically sifferent from the first or second proposed by the model.
+
+### Baseline model
+
+ `WB_Baseline.ipynb` contains the baseline model. To evaluate if using transformers and fine-tuning with heavy comtutational load indeed demonstated its benefits, first the data was fed to a simple tf-idf with cosine similarity model. The file includes metrics and examples.
+
+
+ 
