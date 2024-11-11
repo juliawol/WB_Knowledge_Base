@@ -5,29 +5,21 @@ This repository contains an approach to creating a knowledge base information re
 
 A fine-tuned `SentenceTransformer` model retrieves relevant chunks from a knowledge base based on the input question and uses an optional cross-encoder for re-ranking. The interface is built using [Gradio](https://gradio.app/) to make it easy for users to ask questions and receive relevant answers.
 
-## Features
+# Features
 
 - **Fine-tuned Model with Triplet Loss**: The model is trained using a `SentenceTransformer` with triplet loss, fine-tuned on custom terminology data.
 - **Cross-Encoder Re-ranking**: The system uses a cross-encoder for enhanced answer re-ranking, improving the relevance of returned answers.
 - **Gradio Interface**: An easy-to-use web interface built with Gradio, allowing users to ask questions and view the top-5 relevant answers.
 
-## Installation
+# Preprocessing
 
-To set up this project locally, ensure you have the following dependencies installed:
+Preprocessing proved to be a crucial step. Knowledge base and train data contained inconsistencies, repetitions, mistakes and misspellings. A cleaned `chunks.csv` was used to create new train data completed with hard negatives. Given the time constraints, this step unfortunately meant reducing the train data size.
 
-```bash
-pip install torch sentence-transformers transformers pandas gradio scikit-learn
-```
+# Fine-tuning
 
-If you are using Google Colab, the following code can be used to install Gradio and other necessary dependencies:
+The fine-tuning portion was completed using triplet loss with SentenceTransformer to improve the model's understanding of the similarity between questions and relevant answers (chunks) from the knowledge base
 
-```python
-!pip install torch sentence-transformers transformers pandas gradio scikit-learn
-```
-
-
-
-You can refer to the code in `Fine_tuning_with_triplets.ipynb` to set how the training was completed.
+You can refer to the code in `Fine_tuning_with_triplets.ipynb`.
 
 **Prepare the Knowledge Base**:
    For the purposes of fine-tuning, creating a dataset with hard-negatives was an essential step. This code will only be compatible with train sets that contain a question, true chink and a hard-negative.
