@@ -33,7 +33,7 @@ Preprocessing proved to be a crucial step. Knowledge base and train data contain
 The fine-tuning portion was completed using triplet loss with SentenceTransformer to improve the model's understanding of the similarity between questions and relevant answers (chunks) from the knowledge base
 
 You can refer to the code in `Fine_tuning_with_triplets.ipynb`.
-The fine-tuned model is available at https://drive.google.com/file/d/10OcyHBcTVFt4vG8bEJ46i5Ig-OTkSOG_/view?usp=sharing
+The fine-tuned model is available at https://drive.google.com/file/d/10OcyHBcTVFt4vG8bEJ46i5Ig-OTkSOG_/view?usp=sharing or at HuggingFace JuliaWolken/fine_tuned_model_with_triplets
 
 **Prepare the Knowledge Base**:
    For the purposes of fine-tuning, creating a dataset with hard-negatives was an essential step. This code will only be compatible with train sets that contain a question, true chink and a hard-negative.
@@ -122,6 +122,10 @@ Recall@5: 0.68
 
 - **Дообученная модель с функцией тройных потерь**: Модель обучена с использованием `SentenceTransformer` и функции тройных потерь, дообучена на данных с терминологией. 
 Код дообучения можно найти в файле `Fine_tuning_with_triplets.ipynb`. Дообученная модель доступна по ссылке https://drive.google.com/file/d/10OcyHBcTVFt4vG8bEJ46i5Ig-OTkSOG_/view?usp=sharing
+
+Также моделью можно воспользоваться 
+на HuggingFace: JuliaWolken/fine_tuned_model_with_triplets
+
 - **Ранжирование с кросс-энкодером**: Система использует кросс-энкодер для улучшенного ранжирования аутпута, что повышает релевантность возвращаемых ответов.
 - **Интерфейс Gradio**: Простой в использовании веб-интерфейс на Gradio, позволяющий пользователям задавать вопросы и видеть 5 наиболее релевантных ответов.
 
