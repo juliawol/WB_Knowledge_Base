@@ -1,41 +1,7 @@
-# FastText for word embeddings
-fasttext
-
-# Rank-BM25 algorithm for document ranking
-rank_bm25
-
-# Spacy for NLP and tokenization
-spacy
-
-# Russian language model for Spacy
-ru_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/ru_core_news_sm-3.2.0/ru_core_news_sm-3.2.0.tar.gz
-
-# Razdel for tokenization in Russian
-razdel
-
-# Sentence Transformers for sentence-level embeddings
-sentence-transformers
-
-# Hugging Face Transformers library for the cross-encoder model
-transformers
-
-# Datasets library for handling datasets
-datasets
-
-# PyTorch for model training and inference
-torch
-
-# Gensim for working with FastText models
-gensim
-
-# NLTK for stopword removal and tokenization
-nltk
-
-# scikit-learn for metrics and similarity calculations
-scikit-learn
-
-# Pandas for data manipulation
+gradio
 pandas
-
-# numpy for numerical operations (compatible version for fasttext)
-numpy==1.23
+sentence-transformers
+transformers
+scikit-learn
+torch
+datasets
