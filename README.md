@@ -6,6 +6,7 @@ For desciption in Russian, please scroll down.
 
 A fine-tuned `SentenceTransformer` model retrieves relevant chunks from a knowledge base based on the input question and uses an optional cross-encoder for re-ranking. The interface is built using [Gradio](https://gradio.app/) to make it easy for users to ask questions and receive relevant answers.
 
+
 # Structure
 - `Data` contains the necessary preprocessed csv-files:
       -  `chunks.csv` contains the knowledge base, cleaned of duplicates, errors, and typos. In some cases, chunks have been redistributed.
@@ -49,6 +50,10 @@ The main code file (`WB_Triplets.ipynb`) contains the code to retrieve answers. 
 ### Running the Model
 
 During the following three days, the model is available at https://54bac118d6e06c6b04.gradio.live
+
+If not, this is a more stable but slower option:
+
+https://juliawolken-wb-retriever.hf.space
 
 ## Gradio Interface
 
@@ -147,6 +152,10 @@ Recall@5: 0.68
 ### Запуск модели
 
 В течение ближайших трех дней модель доступна по адресу https://54bac118d6e06c6b04.gradio.live
+
+Чуть более медленный, но постоянно работающий вариант:
+
+https://juliawolken-wb-retriever.hf.space
 
 ## Интерфейс Gradio
 
